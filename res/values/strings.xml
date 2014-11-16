@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DestinyLFG</string>
+    <string name="settings">Settings</string>
+    <string name="new_lfg">New "Looking for Group"…</string>
+    <string name="home">Main List</string>
+    <string name="pref_has_mic">Have microphone?</string>
+    <string name="pref_has_mic_summary">If you don\'t have mic or do not want to use voice chat feature uncheck this item</string>
+    <string name="pref_platform">Platform</string>
+    <string name="pref_platform_dialog_title">Choose platform</string>
+    <string name="pref_platform_default">PS4</string>
+    <string name="lvl">Level</string>
+    <string name="psn_id">PSN ID</string>
+    <string name="gamertag">Gamertag</string>
+</resources>
