@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="sliding-up-panel-library-2.0.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../AndroidSlidingUpPanel-lib/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../AndroidSlidingUpPanel-lib/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

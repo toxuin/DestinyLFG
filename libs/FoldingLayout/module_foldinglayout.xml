@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_foldinglayout" default="compile.module.foldinglayout">
+  <dirname property="module.foldinglayout.basedir" file="${ant.file.module_foldinglayout}"/>
+  
+  <property name="module.jdk.home.foldinglayout" value="${jdk.home.android_api_19_platform}"/>
+  <property name="module.jdk.bin.foldinglayout" value="${jdk.bin.android_api_19_platform}"/>
+  <property name="module.jdk.classpath.foldinglayout" value="jdk.classpath.android_api_19_platform"/>
+  
+  <property name="compiler.args.foldinglayout" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+  
+  <property name="foldinglayout.output.dir" value="${module.foldinglayout.basedir}/bin/classes"/>
+  <property name="foldinglayout.testoutput.dir" value="${module.foldinglayout.basedir}/bin/classes"/>
+  
+  <path id="foldinglayout.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="foldinglayout.module.production.classpath">
+    <path refid="${module.jdk.classpath.foldinglayout}"/>
+  </path>
+  
+  <path id="foldinglayout.runtime.production.module.classpath">
+    <pathelement location="${foldinglayout.output.dir}"/>
+  </path>
+  
+  <path id="foldinglayout.module.classpath">
+    <path refid="${module.jdk.classpath.foldinglayout}"/>
+    <pathelement location="${foldinglayout.output.dir}"/>
+  </path>
+  
+  <path id="foldinglayout.runtime.module.classpath">
+    <pathelement location="${foldinglayout.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.foldinglayout">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.foldinglayout">
+    <patternset refid="excluded.from.module.foldinglayout"/>
+  </patternset>
+  
+  <path id="foldinglayout.module.sourcepath">
+    <dirset dir="${module.foldinglayout.basedir}">
+      <include name="gen"/>
+      <include name="src"/>
+      <include name="gen"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.foldinglayout" depends="compile.module.foldinglayout.production,compile.module.foldinglayout.tests" description="Compile module FoldingLayout"/>
+  
+  <target name="compile.module.foldinglayout.production" depends="register.custom.compilers" description="Compile module FoldingLayout; production classes">
+    <mkdir dir="${foldinglayout.output.dir}"/>
+    <javac2 destdir="${foldinglayout.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.foldinglayout}/javac">
+      <compilerarg line="${compiler.args.foldinglayout}"/>
+      <bootclasspath refid="foldinglayout.module.bootclasspath"/>
+      <classpath refid="foldinglayout.module.production.classpath"/>
+      <src refid="foldinglayout.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.foldinglayout"/>
+    </javac2>
+    
+    <copy todir="${foldinglayout.output.dir}">
+      <fileset dir="${module.foldinglayout.basedir}/gen">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.foldinglayout.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.foldinglayout.basedir}/gen">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.foldinglayout.tests" depends="register.custom.compilers,compile.module.foldinglayout.production" description="compile module FoldingLayout; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.foldinglayout" description="cleanup module">
+    <delete dir="${foldinglayout.output.dir}"/>
+    <delete dir="${foldinglayout.testoutput.dir}"/>
+  </target>
+</project>

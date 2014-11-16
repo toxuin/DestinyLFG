@@ -11,11 +11,12 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-public class PrefListAdapter extends ArrayAdapter<View> {
-    private final Map<String, View> items;
+public class FoldableAdapter {
+    /* private final Map<String, View> items;
     private final Context context;
 
-    public PrefListAdapter(Context context, LinkedHashMap<String, View> items) {
+    public FoldableAdapter(Context context, LinkedHashMap<String, View> items) {
+
         super(context, R.layout.pref_row_layout, R.id.pref_row_caption, new LinkedList<>(items.values()));
         this.items = items;
         this.context = context;
@@ -29,5 +30,5 @@ public class PrefListAdapter extends ArrayAdapter<View> {
         TextView textView = (TextView) rowView.findViewById(R.id.pref_row_caption);
 
         return rowView;
-    }
+    } */
 }

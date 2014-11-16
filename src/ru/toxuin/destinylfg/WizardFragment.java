@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.ptr.folding.FoldingPaneLayout;
 
 public class WizardFragment extends Fragment {
     public WizardFragment() {
@@ -17,6 +18,9 @@ public class WizardFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_wizard, container, false);
         //((ImageView) rootView.findViewById(R.id.image)).setImageResource(imageId);
         getActivity().setTitle("New \"Looking for Group\"...");
+
+        FoldingPaneLayout mPaneLayout = (FoldingPaneLayout) rootView.findViewById(R.id.drawer_layout);
+
         return rootView;
     }
 }

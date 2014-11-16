@@ -14,6 +14,7 @@
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" generated="true" />
     </content>
     <orderEntry type="inheritedJdk" />
+    <orderEntry type="module" module-name="FoldingLayout" exported="" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="android-support-v4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="android-support-v7-appcompat" level="project" />
