@@ -12,9 +12,9 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/res" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="module" module-name="FoldingLayout" exported="" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="android-support-v4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="android-support-v7-appcompat" level="project" />

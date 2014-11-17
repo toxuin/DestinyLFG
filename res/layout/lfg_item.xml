@@ -84,7 +84,7 @@
 
             <ImageView android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:src="@drawable/ic_action_email"
+                       android:src="@drawable/mic_slash"
                        android:id="@+id/hasMicPic"/>
             <ImageView
                     android:layout_width="wrap_content"
