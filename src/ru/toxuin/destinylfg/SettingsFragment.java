@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,11 +26,11 @@ import android.widget.TextView.OnEditorActionListener;
 public class SettingsFragment extends Fragment {
     private SharedPreferences spref;
 
-    private static final String HAS_MIC_KEY = "has_mic";
-    private static final String LEVEL_KEY = "lvl";
-    private static final String PLAYER_ID_KEY = "player_id";
-    private static final String CLASS_KEY = "class";
-    private static final String PLATFORM_KEY = "platform";
+    public static final String HAS_MIC_KEY = "has_mic";
+    public static final String LEVEL_KEY = "lvl";
+    public static final String PLAYER_ID_KEY = "player_id";
+    public static final String CLASS_KEY = "class";
+    public static final String PLATFORM_KEY = "platform";
 
     public SettingsFragment() {} // Empty constructor required for fragment subclasses
 
@@ -83,10 +84,12 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+
         classSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 spref.edit().putInt(CLASS_KEY, position).apply();
+                Log.d("LALALALA", "CLASS SET: " + spref.contains(CLASS_KEY) );
             }
 
             @Override

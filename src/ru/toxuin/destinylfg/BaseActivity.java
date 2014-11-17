@@ -1,11 +1,17 @@
 package ru.toxuin.destinylfg;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,6 +25,8 @@ import java.util.List;
 public class BaseActivity extends ActionBarActivity {
     private DrawerLayout drawer;
     private Toolbar toolbar;
+    private Menu mMenu;
+    private Fragment activeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +66,8 @@ public class BaseActivity extends ActionBarActivity {
         drawer.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content, new LFGFragment()).commit();
+        activeFragment = new LFGFragment();
+        fragmentManager.beginTransaction().replace(R.id.content, activeFragment).commit();
 
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -66,18 +75,31 @@ public class BaseActivity extends ActionBarActivity {
                 switch (position) {
                     default:
                     case 0:
-                        fragmentManager.beginTransaction().replace(R.id.content, new LFGFragment()).commit();
+                        if (mMenu != null) mMenu.findItem(R.id.action_refresh).setVisible(true);
+                        activeFragment = new LFGFragment();
                         break;
                     case 1:
-                        fragmentManager.beginTransaction().replace(R.id.content, new WizardFragment()).commit();
+                        if (mMenu != null) mMenu.findItem(R.id.action_refresh).setVisible(false);
+                        activeFragment =  new WizardFragment();
                         break;
                     case 2:
-                        fragmentManager.beginTransaction().replace(R.id.content, new SettingsFragment()).commit();
+                        if (mMenu != null) mMenu.findItem(R.id.action_refresh).setVisible(false);
+                        activeFragment = new SettingsFragment();
                         break;
                 }
+                fragmentManager.beginTransaction().replace(R.id.content, activeFragment).commit();
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.lfg_activity_actions, menu);
+        mMenu = menu;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -86,8 +108,14 @@ public class BaseActivity extends ActionBarActivity {
             case android.R.id.home:
                 drawer.openDrawer(GravityCompat.START);
                 return true;
+            default:
+                activeFragment.onOptionsItemSelected(item);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public static void openSettings(FragmentActivity a) {
+        a.getSupportFragmentManager().beginTransaction().replace(R.id.content, new SettingsFragment()).commit();
     }
 }

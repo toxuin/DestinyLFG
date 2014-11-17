@@ -1,56 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:sliding="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:orientation="vertical">
+              android:orientation="horizontal"
+              android:id="@+id/item_panel"
+              android:paddingBottom="0px"
+              android:minHeight="100dp" android:paddingLeft="5dp" android:paddingTop="5dp" android:paddingRight="5dp">
 
     <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  android:minHeight="150dp"
-                  android:id="@+id/staticPanel">
+                  android:layout_height="match_parent"
+                  android:background="@color/colorSecondary"
+                  android:padding="20dp"
+                  android:orientation="horizontal"
+                  android:gravity="center_vertical">
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="STATIC CONTENT"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="left"
+                android:minWidth="30dp"
+                android:gravity="center_vertical"
+                android:layout_marginRight="20dp">
+            <TextView android:layout_width="wrap_content"
+                      android:id="@+id/levelCaption"
+                      android:layout_height="wrap_content"
+                      android:text="28"
+                      android:textColor="@color/usualLvlColor"
+                      android:textSize="30sp"
+                      android:textStyle="bold"/>
+        </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout android:layout_height="200dp"
-                  android:layout_width="match_parent"
-                  android:orientation="vertical">
-
-        <com.ptr.folding.FoldingLayout
-                android:id="@+id/dynamicPanel"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                sliding:foldNumber="3">
-
-            <LinearLayout android:layout_height="match_parent"
-                          android:layout_width="match_parent"
-                          android:orientation="vertical">
-
-                <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:text="CAT CAT CAT"/>
-
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+            <TextView android:layout_width="wrap_content"
+                      android:id="@+id/eventCaption"
+                      android:layout_height="wrap_content"
+                      android:text="Vault of Glass - Normal - Super Abusive Caption"
+                      android:textColor="@color/colorPrimaryDark"
+                      android:textSize="18sp"
+                      android:textStyle="bold" android:maxLines="2"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:baselineAligned="true" android:gravity="center_vertical"
+                    android:layout_marginTop="10dp">
                 <ImageView
-                        android:id="@+id/image_view"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/cat"/>
+                        android:id="@+id/platformPic" android:src="@drawable/ic_action_settings" android:layout_marginRight="10dp"/>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+                    <TextView android:layout_width="wrap_content"
+                              android:id="@+id/playerIdCation"
+                              android:layout_height="wrap_content"
+                              android:text="Taxuin"
+                              android:textColor="@color/abc_primary_text_material_light"
+                              android:textStyle="italic"
+                              android:textSize="15sp"
+                              android:singleLine="true" android:gravity="left" android:layout_weight="1"/>
 
+                    <TextView android:layout_width="wrap_content"
+                              android:id="@+id/classCaption"
+                              android:layout_height="wrap_content"
+                              android:text="Titan"
+                              android:textColor="@color/abc_primary_text_material_light"
+                              android:textSize="15sp"
+                              android:singleLine="true" android:layout_gravity="right" android:gravity="right" android:layout_marginRight="20dp"/>
+                </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
 
-        </com.ptr.folding.FoldingLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical">
+
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:src="@drawable/ic_action_email"
+                       android:id="@+id/hasMicPic"/>
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/hasNotesPic"
+                    android:src="@drawable/ic_action_expand"
+                    android:visibility="gone"/>
+        </LinearLayout>
 
     </LinearLayout>
-
 
 </LinearLayout>

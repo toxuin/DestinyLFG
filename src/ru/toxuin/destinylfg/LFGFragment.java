@@ -1,140 +1,170 @@
 package ru.toxuin.destinylfg;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
+
 import android.app.ProgressDialog;
-import android.opengl.Visibility;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AnticipateInterpolator;
-import android.view.animation.OvershootInterpolator;
-import android.widget.AdapterView;
-import android.widget.ImageView;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.ptr.folding.BaseFoldingLayout;
-import com.ptr.folding.FoldingLayout;
-import com.ptr.folding.listener.OnFoldListener;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import ru.toxuin.destinylfg.library.AnimatedExpandableListView;
 import ru.toxuin.destinylfg.library.JSONParser;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class LFGFragment extends Fragment {
     View rootView;
 
-    FoldingLayout dynPanel;
-    LinearLayout staticPanel;
-
-    ListView itemList;
-
     public LFGFragment() { } // Empty constructor required for fragment subclasses
 
-    private static String serverUrl = "http://api.learn2crack.com/android/jsonos/";
-    private static final String TAG_OS = "android";
-    private static final String TAG_VER = "ver";
-    private static final String TAG_NAME = "name";
-    private static final String TAG_API = "api";
+    public static String serverUrl = "http://nighthunters.ca/destiny_lfg/";
+    public static final String TAG_ROOT = "lfg";
+    public static final String TAG_LEVEL = "lvl";
+    public static final String TAG_CLASS = "class";
+    public static final String TAG_EVENT = "event";
+    public static final String TAG_PLAYER_NAME = "playerName";
+    public static final String TAG_HAS_MIC = "hasMic";
+    public static final String TAG_NOTES = "notes";
+    public static final String TAG_PLATFORM = "platform";
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-
-        dynPanel.setFoldFactor(1);
-        dynPanel.invalidate();
-        dynPanel.getChildAt(0).invalidate();
-//        Log.d("LALALAL", "PANEL FOLD FACTOR: " + dynPanel.getFoldFactor());
-    }
-
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        dynPanel.setFoldFactor(1f);
-    }
+    private AnimatedExpandableListView itemsList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.lfg_item, container, false);
-        staticPanel = (LinearLayout) rootView.findViewById(R.id.staticPanel);
-        itemList = (ListView) rootView.findViewById(R.id.items_list);
-        dynPanel = (FoldingLayout) rootView.findViewById(R.id.dynamicPanel);
+        rootView = inflater.inflate(R.layout.fragment_lfg, container, false);
 
         getActivity().setTitle(this.getString(R.string.app_name));
-        dynPanel.setOrientation(BaseFoldingLayout.Orientation.VERTICAL);
 
+        itemsList = (AnimatedExpandableListView) rootView.findViewById(R.id.items_list);
+        itemsList.setGroupIndicator(null);
+        itemsList.setDividerHeight(0);
 
-        //itemList.setAdapter(new FoldableAdapter());
-
-
-
-
-        //ObjectAnimator.ofFloat(dynPanel, "foldFactor", dynPanel.getFoldFactor(), 1).setDuration(300).start();
-
-        staticPanel.setOnClickListener(new OnClickListener() {
+        itemsList.setOnGroupClickListener(new OnGroupClickListener() {
             @Override
-            public void onClick(View v) {
-                toggleFold(dynPanel);
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if (itemsList.isGroupExpanded(groupPosition)) {
+                    itemsList.collapseGroupWithAnimation(groupPosition);
+                } else {
+                    itemsList.expandGroupWithAnimation(groupPosition);
+                }
+                return true;
             }
         });
-
-        ImageView image = (ImageView) rootView.findViewById(R.id.image_view);
-        image.setPadding(1, 1, 1, 1);
-
-        //new JSONParse().execute();
+        refreshList();
 
         return rootView;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void refreshList() {
+        LinearLayout errorPane = (LinearLayout) rootView.findViewById(R.id.errorPanel);
+        if (!isNetworkAvailable()) {
+            TextView errorMessage = (TextView) rootView.findViewById(R.id.errorMessage);
+            errorPane.setVisibility(View.VISIBLE);
+            itemsList.setVisibility(View.GONE);
+            errorMessage.setText("No network connection available. Once you reconnect - hit refresh button!");
+        } else {
+            errorPane.setVisibility(View.GONE);
+            itemsList.setVisibility(View.VISIBLE);
+            new JSONParse().execute();
+        }
     }
 
-    private void toggleFold(FoldingLayout layout) {
-        final boolean open = (layout.getFoldFactor() == 0);
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
-        Log.d("ALALALAL", "WAS OPEN: " + open);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                refreshList();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-        ObjectAnimator animator = ObjectAnimator.ofFloat(layout,
-                "foldFactor", layout.getFoldFactor(), open ? 1 : 0);
-        animator.setDuration(300);
-        animator.setInterpolator(new AccelerateInterpolator());
-        animator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                if (!open) {
-                    dynPanel.setVisibility(View.VISIBLE);
-                    dynPanel.getChildAt(0).setVisibility(View.VISIBLE);
+
+
+    private class JSONParse extends AsyncTask<String, String, JSONObject> {
+        private ProgressDialog pDialog;
+        SharedPreferences spref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        int platform = spref.getInt("platform", 0);
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(getActivity());
+            pDialog.setMessage("Getting Data ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+            return jParser.getJSONFromUrl(serverUrl + "?" + TAG_PLATFORM + "=" + platform);
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            pDialog.dismiss();
+            Log.d("LALALA", json.toString());
+            ArrayList<LfgItem> items = new ArrayList<>();
+            try {
+                // Getting JSON Array from URL
+                JSONArray array = json.getJSONArray(TAG_ROOT);
+                if (json.isNull(TAG_ROOT)) {
+                    Log.d("LALALAL", json.getString("error"));
+                    return;
                 }
-            }
+                for (int i = 0; i < array.length(); i++){
+                    JSONObject c = array.getJSONObject(i);
+                    // Storing  JSON item in a Variable
 
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (open) {
-                    dynPanel.setVisibility(View.GONE);
-                    dynPanel.getChildAt(0).setVisibility(View.GONE);
+                    // lvl, class, event, playername, hasMic, notes
+                    int lvl = c.getInt(TAG_LEVEL);
+                    int clas = c.getInt(TAG_CLASS);
+                    int event = c.getInt(TAG_EVENT);
+                    String playerName = c.getString(TAG_PLAYER_NAME);
+                    boolean hasMic = c.getBoolean(TAG_HAS_MIC);
+                    String notes = c.getString(TAG_NOTES);
+                    items.add(new LfgItem(lvl, platform, clas, event, hasMic, playerName, notes));
                 }
-            }
+                FoldableAdapter adapter = new FoldableAdapter(getActivity(), items);
+                itemsList.setAdapter(adapter);
+            } catch (JSONException e) {
+                TextView errorMessage = (TextView) rootView.findViewById(R.id.errorMessage);
+                LinearLayout errorPane = (LinearLayout) rootView.findViewById(R.id.errorPanel);
+                errorPane.setVisibility(View.VISIBLE);
+                itemsList.setVisibility(View.GONE);
+                try {
+                    if (json.get("error") != null) {
+                        errorMessage.setText("Error: " + json.getString("error"));
+                    }
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
 
-            @Override
-            public void onAnimationCancel(Animator animation) {}
-            @Override
-            public void onAnimationRepeat(Animator animation) {}
-        });
-        animator.start();
+            }
+        }
     }
 
 

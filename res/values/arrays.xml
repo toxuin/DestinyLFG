@@ -7,8 +7,47 @@
     </string-array>
     <string-array name="pref_platforms">
         <item>PS4</item>
-        <item>Xbox One</item>
         <item>PS3</item>
+        <item>Xbox One</item>
         <item>Xbox 360</item>
+    </string-array>
+    <string-array name="events">
+        <item>Weekly Nightfall Strike</item>
+        <item>Weekly Heroic Strike - Level 22</item>
+        <item>Weekly Heroic Strike - Level 26</item>
+        <item>Weekly Heroic Strike - Level 28</item>
+        <item>Strike Playlist - Level 18</item>
+        <item>Strike Playlist - Level 20</item>
+        <item>Strike Playlist - Level 22</item>
+        <item>Strike Playlist - Level 24</item>
+        <item>Strike - The Devils Lair</item>
+        <item>Strike - The Summoning Pits</item>
+        <item>Strike - The Nexus</item>
+        <item>Strike - Winters Run</item>
+        <item>Strike - Dust Palace</item>
+        <item>Strike - Cerberus Vae III</item>
+        <item>Daily Heroic Story - Level 20</item>
+        <item>Daily Heroic Story - Level 24</item>
+        <item>Daily Heroic Story - Level 28</item>
+        <item>Story - Earth</item>
+        <item>Story - Moon</item>
+        <item>Story - Mars</item>
+        <item>Story - Venus</item>
+        <item>Vault of Glass - Normal mode</item>
+        <item>Vault of Glass - Hard mode</item>
+        <item>Patrol - Public Events</item>
+        <item>Patrol - Earth</item>
+        <item>Patrol - Moon</item>
+        <item>Patrol - Mars</item>
+        <item>Patrol - Venus</item>
+        <item>Crucible - Clash</item>
+        <item>Crucible - Combined Arms</item>
+        <item>Crucible - Control</item>
+        <item>Crucible - Rumble</item>
+        <item>Crucible - Salvage</item>
+        <item>Crucible - Skirmish</item>
+        <item>Exotic Weapon Bounty</item>
+        <item>Clan recruitment</item>
+        <item>See notes…</item>
     </string-array>
 </resources>

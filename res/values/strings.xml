@@ -12,4 +12,9 @@
     <string name="lvl">Level</string>
     <string name="psn_id">PSN ID</string>
     <string name="gamertag">Gamertag</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="no_settings_dialog">You did not set your settings!</string>
+    <string name="open_settings">Open Settings!</string>
+    <string name="send_btn">Send!</string>
+    <string name="any_notes">Any notes?</string>
 </resources>

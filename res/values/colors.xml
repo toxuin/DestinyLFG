@@ -8,4 +8,10 @@
 
     <color name="windowBackgroundColor">@color/background_material_light</color>
     <color name="black_translucent">#80000000</color>
+    <color name="lightLvlColor">#fffff528</color>
+    <color name="usualLvlColor">#ff2f2f2f</color>
+    <color name="someRandomLimeyColor">#95c91d</color>
+
+    <color name="separatorColor">#ff535353</color>
+
 </resources>

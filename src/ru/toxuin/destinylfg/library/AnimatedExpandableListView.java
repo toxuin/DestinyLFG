@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.Transformation;
@@ -92,7 +93,6 @@ public class AnimatedExpandableListView extends ExpandableListView {
      *    the collapsed group.
      */
 
-    @SuppressWarnings("unused")
     private static final String TAG = AnimatedExpandableListAdapter.class.getSimpleName();
 
     /**
@@ -135,7 +135,6 @@ public class AnimatedExpandableListView extends ExpandableListView {
      * @return  Returns true if the group was expanded. False if the group was
      *          already expanded.
      */
-    @SuppressLint("NewApi")
     public boolean expandGroupWithAnimation(int groupPos) {
         boolean lastGroup = groupPos == adapter.getGroupCount() - 1;
         if (lastGroup && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -339,7 +338,7 @@ public class AnimatedExpandableListView extends ExpandableListView {
 
             if (info.animating) {
                 // If this group is animating, return the a DummyView...
-                if (convertView instanceof DummyView == false) {
+                if (!(convertView instanceof DummyView)) {
                     convertView = new DummyView(parent.getContext());
                     convertView.setLayoutParams(new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, 0));
                 }
@@ -428,6 +427,7 @@ public class AnimatedExpandableListView extends ExpandableListView {
                 if (info.expanding && state != STATE_EXPANDING) {
                     ExpandAnimation ani = new ExpandAnimation(dummyView, 0, totalHeight, info);
                     ani.setDuration(this.parent.getAnimationDuration());
+                    ani.setInterpolator(new AccelerateInterpolator());
                     ani.setAnimationListener(new AnimationListener() {
 
                         @Override
@@ -453,6 +453,7 @@ public class AnimatedExpandableListView extends ExpandableListView {
 
                     ExpandAnimation ani = new ExpandAnimation(dummyView, info.dummyHeight, 0, info);
                     ani.setDuration(this.parent.getAnimationDuration());
+                    ani.setInterpolator(new AccelerateInterpolator());
                     ani.setAnimationListener(new AnimationListener() {
 
                         @Override

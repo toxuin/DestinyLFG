@@ -151,7 +151,7 @@ public class BaseFoldingLayout extends ViewGroup {
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		View child = getChildAt(0);
 		measureChild(child, widthMeasureSpec, heightMeasureSpec);
-		setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
+		setMeasuredDimension(child.getMeasuredWidth(), child.getMeasuredHeight());
 	}
 
 	@Override
@@ -357,10 +357,10 @@ public class BaseFoldingLayout extends ViewGroup {
 		 * If the fold factor is 1 than the folding view should not be seen and
 		 * the canvas can be left completely empty.
 		 */
-		if (mFoldFactor == 1) {
+		/*if (mFoldFactor == 1) {
 			mShouldDraw = false;
 			return;
-		}
+		} */
 
 		if (mFoldFactor == 0 && mPreviousFoldFactor > 0 && mFoldListener != null) {
 			mFoldListener.onUnfold();
